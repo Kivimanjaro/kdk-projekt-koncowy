@@ -1,6 +1,7 @@
 package library.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table (name = "customer")
@@ -10,24 +11,26 @@ public class Customer {
     @GeneratedValue
     private long id;
 
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
 
+    @NotNull
     @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "age")
-    private int age;
 
     @Column(name = "active")
     private boolean active;
 
+    @OneToOne(mappedBy = "customer")
+    private RentBook rentBook;
+
     public Customer() {
     }
 
-    public Customer(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public Customer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.active = false;
     }
 
@@ -35,20 +38,20 @@ public class Customer {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public int getAge() {
-        return age;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public boolean isActive() {
@@ -59,12 +62,13 @@ public class Customer {
         this.active = active;
     }
 
+
     @Override
     public String toString() {
-        return "library.model.Customer{" +
+        return "Customer{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", active=" + active +
                 '}';
     }

@@ -35,7 +35,9 @@ public class CustomerController {
     @PostMapping(value = "/customers/create")
     public Customer postCustomer(@RequestBody Customer customer) {
 
-        Customer _customer = repository.save(new Customer(customer.getName(), customer.getAge()));
+        System.out.println("Created customer: " + customer.getFirstName() + " " + customer.getLastName());
+
+        Customer _customer = repository.save(new Customer(customer.getFirstName(), customer.getLastName()));
         return _customer;
     }
 
@@ -57,12 +59,6 @@ public class CustomerController {
         return new ResponseEntity<>("All customers have been deleted!", HttpStatus.OK);
     }
 
-    @GetMapping(value = "customers/age/{age}")
-    public List<Customer> findByAge(@PathVariable int age) {
-
-        List<Customer> customers = repository.findByAge(age);
-        return customers;
-    }
 
     @GetMapping(value = "customers/id/{id}")
     public List<Customer> myFinder(@PathVariable Long id) {
@@ -82,8 +78,8 @@ public class CustomerController {
 
         if (customerData.isPresent()) {
             Customer _customer = customerData.get();
-            _customer.setName(customer.getName());
-            _customer.setAge(customer.getAge());
+            _customer.setFirstName(customer.getFirstName());
+            _customer.setLastName(customer.getLastName());
             _customer.setActive(customer.isActive());
             return new ResponseEntity<>(repository.save(_customer), HttpStatus.OK);
         } else {
